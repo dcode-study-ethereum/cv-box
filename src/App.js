@@ -36,9 +36,6 @@ class App extends Component {
                 this.setStateIfChange({
                     web3: results.web3
                 })
-
-                this.instantiateContract();
-                this.instantiateCVContract();
             })
             .catch(() => {
                 console.log('Error finding web3.')
@@ -46,7 +43,14 @@ class App extends Component {
         this.setStateIfChange({dummy: 1})
     }
 
-    instantiateContract() {
+    componentDidUpdate() {
+        this.instantiateContract();
+        this.instantiateCVContract();
+    }
+
+
+
+        instantiateContract() {
         /*
          * SMART CONTRACT EXAMPLE
          *
