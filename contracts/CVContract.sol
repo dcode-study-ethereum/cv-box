@@ -1,8 +1,9 @@
 pragma solidity ^0.4.18;
 
 import "./CVExtender.sol";
+import "./lib/Ownable.sol";
 
-contract CVContract is CVExtender {
+contract CVContract is CVExtender, Ownable {
 
     /**
      * Your functions go here
@@ -11,6 +12,10 @@ contract CVContract is CVExtender {
 
     function MyFunction1() {}
     function MyFunction2() {}
+
+    function isOwner() public onlyOwner returns(bool) {
+        return true;
+    }
 
 
     /**

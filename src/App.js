@@ -8,6 +8,9 @@ import './App.css'
 import AppHeader from "./components/AppHeader";
 import AppMain from "./components/AppMain";
 
+// Loadash
+import _ from 'lodash'
+
 class App extends Component {
     constructor(props) {
         super(props)
@@ -18,27 +21,29 @@ class App extends Component {
             address: null,
             description: null,
             title: null,
-            author: null
+            author: null,
+            owner: null,
+            dummy: 0
         }
     }
-
     componentWillMount() {
         // Get network provider and web3 instance.
         // See utils/getWeb3 for more info.
 
         getWeb3
             .then(results => {
-                this.setState({
+                console.log(`componentWillMount ${(new Date()).getTime()}`);
+                this.setStateIfChange({
                     web3: results.web3
                 })
 
-                // Instantiate contract once web3 provided.
                 this.instantiateContract();
                 this.instantiateCVContract();
             })
             .catch(() => {
                 console.log('Error finding web3.')
             })
+        this.setStateIfChange({dummy: 1})
     }
 
     instantiateContract() {
@@ -68,7 +73,7 @@ class App extends Component {
                 return simpleStorageInstance.get.call(accounts[0])
             }).then((result) => {
                 // Update state with the result.
-                return this.setState({storageValue: result.c[0]})
+                return this.setStateIfChange({storageValue: result.c[0]})
             })
         })
     }
@@ -97,19 +102,31 @@ class App extends Component {
                     instance.getAddress.call(),
                     instance.getDescription.call(),
                     instance.getTitle.call(),
-                    instance.getAuthor.call()
+                    instance.getAuthor.call(),
+                    instance.isOwner.call()
                     ]
                 )
             }).then((result) => {
                 // Update state with the result.
-                return this.setState({
+                return this.setStateIfChange({
                     address: result[0],
                     description: result[1],
                     title: result[2],
-                    author: result[3]
+                    author: result[3],
+                    owner: result[4]
                 })
             })
         })
+    }
+
+    setStateIfChange(obj){
+        if(_.isMatch(this.state, obj)){
+            console.log(`${(new Date()).getTime()}::setStateIfChange state changed`);
+        }
+        else{
+            console.log(`${(new Date()).getTime()}::setStateIfChange state did change, not updating`);
+            this.setState(obj)
+        }
     }
 
 
@@ -124,7 +141,8 @@ class App extends Component {
                 address={state.address}
                 description={state.description}
                 title={state.title}
-                author={state.author}/>
+                author={state.author}
+                owner={state.owner}/>
             </div>
 
         );

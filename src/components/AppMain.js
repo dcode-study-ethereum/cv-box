@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AppMain = ({storageValue,address,description,title,author}) => (
+const AppMain = ({storageValue,address,description,title,author,owner}) => (
     <main className="container">
         <div className="pure-g">
             <div className="pure-u-1-1">
@@ -15,6 +15,7 @@ const AppMain = ({storageValue,address,description,title,author}) => (
                 <p>description: {description}</p>
                 <p>title: {title}</p>
                 <p>author: {author}</p>
+                <p>owner: {`${owner}`}</p>
             </div>
         </div>
     </main>
