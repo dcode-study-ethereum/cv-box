@@ -1,0 +1,7 @@
+.idea/
+node_modules/
+build
+.DS_Store
+*.tgz
+template/src/__tests__/__snapshots__/
+*.log
