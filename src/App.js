@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
+import CVContract from '../build/contracts/CVContract.json'
+
 import getWeb3 from './utils/getWeb3'
 
 import './App.css'
@@ -12,7 +14,11 @@ class App extends Component {
 
         this.state = {
             storageValue: 0,
-            web3: null
+            web3: null,
+            address: null,
+            description: null,
+            title: null,
+            author: null
         }
     }
 
@@ -27,7 +33,8 @@ class App extends Component {
                 })
 
                 // Instantiate contract once web3 provided.
-                this.instantiateContract()
+                this.instantiateContract();
+                this.instantiateCVContract();
             })
             .catch(() => {
                 console.log('Error finding web3.')
@@ -66,12 +73,58 @@ class App extends Component {
         })
     }
 
+    instantiateCVContract() {
+        /*
+         * SMART CONTRACT EXAMPLE
+         *
+         * Normally these functions would be called in the context of a
+         * state management library, but for convenience I've placed them here.
+         */
+
+        const contract = require('truffle-contract');
+        const cvContract = contract(CVContract);
+        cvContract.setProvider(this.state.web3.currentProvider);
+
+        // Declaring this for later so we can chain functions on SimpleStorage.
+
+        // Get accounts.
+        this.state.web3.eth.getAccounts((error, accounts) => {
+            console.log(`error: ${error}\naccounts: ${accounts}`);
+            cvContract.deployed().then((instance) => {
+                console.log(`deployed: ${instance}`);
+                // Get the value from the contract to prove it worked.
+                return Promise.all([
+                    instance.getAddress.call(),
+                    instance.getDescription.call(),
+                    instance.getTitle.call(),
+                    instance.getAuthor.call()
+                    ]
+                )
+            }).then((result) => {
+                // Update state with the result.
+                return this.setState({
+                    address: result[0],
+                    description: result[1],
+                    title: result[2],
+                    author: result[3]
+                })
+            })
+        })
+    }
+
+
+
     render() {
+        let state = this.state;
         return (
             <div className="App">
                 <AppHeader/>
 
-                <AppMain storageValue={this.state.storageValue}/>
+                <AppMain storageValue={state.storageValue}
+                address={state.address}
+                description={state.description}
+                title={state.title}
+                author={state.author}/>
             </div>
 
         );

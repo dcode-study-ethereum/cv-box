@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AppMain = ({storageValue}) => (
+const AppMain = ({storageValue,address,description,title,author}) => (
     <main className="container">
         <div className="pure-g">
             <div className="pure-u-1-1">
@@ -11,6 +11,10 @@ const AppMain = ({storageValue}) => (
                     (by default).</p>
                 <p>Try changing the value stored on <strong>line 59</strong> of App.js.</p>
                 <p>The stored value is: {storageValue}</p>
+                <p>address: {address}</p>
+                <p>description: {description}</p>
+                <p>title: {title}</p>
+                <p>author: {author}</p>
             </div>
         </div>
     </main>
