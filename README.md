@@ -1,23 +1,18 @@
-Simple Ethereum Dapp, interacting with CVContract
+# Simple Ethereum Dapp, interacting with CVContract
 
-Install
+## Install
 
-git clone git@github.com:dcode-study-ethereum/cv-box.git cv-box
-cd cv-box
-terminal 2:
-npm install
+- git clone git@github.com:dcode-study-ethereum/cv-box.git cv-box
+- cd cv-box
+- npm install
 
-Run
+## Run
 
-open 2 terminals:
-terminal 1:
-truffle develop
-inside console:
-deploy --reset
-terminal 2:
-npm start
-
-Open http://localhost:3000/
-
-
-
+- open 2 terminals:
+- terminal 1:
+    -  `truffle develop`
+    -  inside console:
+    -  `deploy --reset`
+-  terminal 2:
+    -  `npm start`
+- Open http://localhost:3000/
