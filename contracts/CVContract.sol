@@ -13,8 +13,11 @@ contract CVContract is CVExtender, Ownable {
     function MyFunction1() {}
     function MyFunction2() {}
 
-    function isOwner() public onlyOwner returns(bool) {
-        return true;
+    function isOwner() public returns(bool) {
+        if(msg.sender == owner) {
+            return true;
+        }
+        return false;
     }
 
 

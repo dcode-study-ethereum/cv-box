@@ -33,9 +33,12 @@ class App extends Component {
         getWeb3
             .then(results => {
                 console.log(`componentWillMount ${(new Date()).getTime()}`);
-                this.setStateIfChange({
-                    web3: results.web3
-                })
+                results.web3.eth.getAccounts((error, accounts) => {
+                    results.web3.eth.defaultAccount = accounts[1];
+                    this.setStateIfChange({
+                        web3: results.web3
+                    })
+                });
             })
             .catch(() => {
                 console.log('Error finding web3.')
